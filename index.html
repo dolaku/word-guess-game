@@ -17,28 +17,28 @@
             <div class="col-12">
                 <div class="px-3 py-3 pt-md-5 pb-md-4 text-center">
                     <h1 class="mb-5 display-3">Word Guess!</h1>
-                    <form class="mb-2" id="guessForm">
-                        <div id="warning"></div>
-                        <input class="px-3 py-1" id="guessLetter" maxlength="1" type="text" placeholder="Enter a letter . . ."/>
-                        <button class="px-3 py-1" id="guessButton" type="submit">
+                    <small class="text-center text-muted">Hint: words are breakfast items.</small>
+                    <form id="guessForm">
+                        <input class="px-3 py-1 text-center" id="guessLetter" maxlength="1" type="text" onfocus="this.value=''" placeholder="Enter a letter . . ."/>
+                        <button class="px-4 py-1" id="guessButton" type="submit" onclick="getUserInput();">
                             Guess <i class="fas fa-arrow-circle-right"></i>
                         </button>
                     </form>
-                    <small>Hint: words are breakfast items.</small>
+                    <div class="text-danger" id="warning"></div>
                 </div>
             </div>
         </div><!--row_header-->
-        <div class="row mb-auto mt-4 flex-shrink-0" id="main">
+        <div class="row mb-auto mt-3 flex-shrink-0" id="main">
             <div class="col-md-8">
                 <div class="card mb-4">
-                    <h5 class="card-header">Guess this word:</h5>
+                    <h5 class="card-header">What's For Breakfast?</h5>
                     <div class="card-body text-center">
                         <div class="p-2 m-2">
-                            <h2 id="hangman">Hangman Area</h2>
+                            <h2 id="hangman"></h2>
                         </div>
                         <p class="card-text">
                             Wrong Guesses:
-                            <br><span id="guessWrong">A</span>
+                            <br><span id="guessWrong"></span>
                         </p>
                     </div>
                 </div>
