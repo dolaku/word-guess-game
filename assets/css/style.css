@@ -2,3 +2,12 @@
     opacity: .2;
     transition: .2s;
 }
+#hangman .hangman-letters {
+    border-bottom: 4px solid black;
+    color: orangered;
+    display: inline-block;
+    width: 32px;
+}
+#hangman .hangman-letters span {
+    /* visibility: hidden; */
+}

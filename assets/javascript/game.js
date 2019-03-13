@@ -1,6 +1,9 @@
 var warning = document.getElementById('warning');
 var hangman = document.getElementById('hangman');
 var guessWrong = document.getElementById('guessWrong');
+var win = document.getElementById('win');
+var lose = document.getElementById('lose');
+var guessRemaining = document.getElementById('guessRemaining');
 
 // Word Bank
 var words = ['pancake', 'waffle', 'sausage', 'eggs', 'omelette', 'muffin', 'bagel', 'toast', 'bacon', 'yogurt', 'oatmeal', 'grits', 'cereal', 'biscuit', 'croissant', 'juice', 'strawberry', 'blueberry', 'blackberry', 'raspberry'];
@@ -16,49 +19,48 @@ var randomWord = words[randomNum];
 // Underscores based on word length
 var placeholderArray = [];
 for (var i = 0; i < randomWord.length; i++) {
-    placeholderArray[i] = '_';
+    placeholderArray[i] = '<div class="hangman-letters"><span>' + randomWord[i] + '</span></div>';
     for (var j = 0; j < placeholderArray.length; j++) {
-        var blankLetters = placeholderArray[j] + ' ';
+        var blockLetters = placeholderArray[j] + ' ';
     }
-    hangman.innerHTML += blankLetters;
+    hangman.innerHTML += blockLetters;
 }
 
-// Keep track of remaining letters
-var remainingLetters = randomWord.length;
-
-// Check if input is a letter with button
-function getUserInput() {
+// Initialize game
+function game() {
     var guessLetter = document.getElementById('guessLetter').value;
     var inputLetter = guessLetter.toUpperCase();
+    var remainingLetters = randomWord.length;
+    var wrongArray = [];
 
     // prevents page from refreshing on submit
     event.preventDefault();
 
-    //check input is a letter
-    if (inputLetter != '/[^A-Z]/') {
+    // check input is a letter - not a number or symbol
+    if (!/^([A-Z])$/.test(inputLetter)) {
         warning.innerHTML = 'Please enter a letter.';
-        guessWrong.innerHTML = inputLetter;
+        guessWrong.innerHTML = inputLetter; //for testing
     } else {
         warning.innerHTML = '';
-        guessWrong.innerHTML = inputLetter;
+
+        // if wrong - Push incorrect letters to wrong-array
+        /* if () {
+
+        } */
+        guessWrong.innerHTML = inputLetter; // for testing
+
+
+        // if correct - Push correct letters to replace that underscore
+
+
+
     }
 
 }
-// Initialize game
-
-
-// Check if guessed letter is correct
-
-
-// Push correct letters onto underscores
-
-
-// Push incorrect letters to wrong-array
-var lettersWrong = [];
 
 // Restart game
 
 
 
-console.log(randomWord);
-console.log(placeholderArray);
+console.log(randomWord); //for testing
+console.log(placeholderArray); //for testing
