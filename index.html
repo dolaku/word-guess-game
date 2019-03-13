@@ -18,10 +18,11 @@
                 <div class="px-3 py-3 pt-md-5 pb-md-4 text-center">
                     <h1 class="mb-5 display-3">Word Guess!</h1>
                     <form class="mb-2" id="guessForm">
-                            <input class="px-3 py-1" id="guessLetter" maxlength="1" type="text" placeholder="Enter a letter . . ."/>
-                            <button class="px-3 py-1" id="guessButton" type="submit">
-                                Guess <i class="fas fa-arrow-circle-right"></i>
-                            </button>
+                        <div id="warning"></div>
+                        <input class="px-3 py-1" id="guessLetter" maxlength="1" type="text" placeholder="Enter a letter . . ."/>
+                        <button class="px-3 py-1" id="guessButton" type="submit">
+                            Guess <i class="fas fa-arrow-circle-right"></i>
+                        </button>
                     </form>
                     <small>Hint: words are breakfast items.</small>
                 </div>
