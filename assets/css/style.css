@@ -6,8 +6,17 @@
     border-bottom: 4px solid black;
     color: orangered;
     display: inline-block;
-    width: 32px;
+    width: 30px;
 }
 #hangman .hangman-letters span {
     /* visibility: hidden; */
+}
+
+#guessWrong .wrong-letters {
+    border: 2px solid #333;
+    color: #c91477;
+    display: inline-block;
+    margin: 10px 5px;
+    padding: 10px;
+    /* width: 30px; */
 }
