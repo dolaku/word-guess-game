@@ -23,7 +23,7 @@ var randomWordSplit = randomWord.split('');
 
 // Blank spaces based on word length
 for (var i = 0; i < randomWord.length; i++) {
-    placeholderArray[i] = '<div class="hangman-letters"><span>' + randomWord[i] + '</span></div>';
+    placeholderArray[i] = '<div class="hangman-letters"><span> </span></div>';
     for (var j = 0; j < placeholderArray.length; j++) {
         var blockLetters = placeholderArray[j] + ' ';
     }
@@ -55,17 +55,26 @@ function game() {
         for (var x = 0; x < randomWordSplit.length; x++) {
             if (inputLetter !== randomWordSplit[x]) {
                 //  - Push incorrect letters to wrong-array
-                wrongArray.push(inputLetter);
+                /* wrongArray.push(inputLetter);
                 for (var y = 0; y < wrongArray.length; y++) {
                     wrongPlaceholder[y] = '<div class="wrong-letters"><span>' + wrongArray[y] + '</span></div>';
                     for (var z = 0; z < wrongPlaceholder.length; z++) {
                         var wrongBlockLetters = wrongPlaceholder[z];
                     }
                     guessWrong.innerHTML = wrongBlockLetters;
-
-            } /* else if (inputLetter === randomWordSplit[x]) {
-                console.log(randomWordSplit[x]);
-                guessWrong.innerHTML = inputLetter + 'yyy'; // for testing */
+                    */              
+                    console.log(inputLetter);
+                    console.log('no');
+                } else if (inputLetter === randomWordSplit[x]) {
+                    var index = randomWordSplit.indexOf(inputLetter);
+                    if (inputLetter === randomWordSplit[index]) {
+                    }
+                    console.log('-------')
+                    console.log(randomWordSplit[index]);
+                    console.log('yes');
+                    console.log(index);
+                /* console.log(randomWordSplit[x]);
+                guessWrong.innerHTML = inputLetter + 'yyy'; // for testing  */
             }
         }
 
