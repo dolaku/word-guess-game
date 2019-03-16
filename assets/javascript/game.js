@@ -8,8 +8,11 @@ var lose = document.getElementById('lose');
 var guessRemaining = document.getElementById('guessRemaining');
 var winCount = 0;
 var loseCount = 0;
+var guessRemCount;
 var placeholderArray = [];
-var lettersArray = [];
+var blockLetters = "";
+var wrongArray = [];
+var progressArray = [];
 
 // Transforms words to uppercase
 for (var u = 0; u < words.length; u++) {
@@ -21,80 +24,85 @@ var randomNum = Math.floor(Math.random() * words.length);
 var randomWord = words[randomNum];
 var randomWordSplit = randomWord.split('');
 
-// Blank spaces based on word length
-for (var i = 0; i < randomWord.length; i++) {
-    placeholderArray[i] = '<div class="hangman-letters"><span> </span></div>';
-    for (var j = 0; j < placeholderArray.length; j++) {
-        var blockLetters = placeholderArray[j] + ' ';
+// Updates the blank spaces 
+function updateDisplay() {    
+    for (var i = 0; i < randomWord.length; i++) {
+        blockLetters += placeholderArray[i];
     }
-    hangman.innerHTML += blockLetters;
 
-    // create guesses remaining depending on length of word
-    guessRemCount = randomWordSplit.length + 3;
+    win.innerHTML = winCount;
+    hangman.innerHTML = blockLetters;
+    guessWrong.innerHTML = wrongArray;
     guessRemaining.innerHTML = guessRemCount;
 }
 
-// Initialize game
-function game() {
+// Evaluates inputs
+function evalInput() {
     var guessLetter = document.getElementById('guessLetter').value;
     var inputLetter = guessLetter.toUpperCase();
-    var remainingLetters = randomWord.length;
-    var wrongArray = [];
-    var wrongPlaceholder = [];
 
     // prevents page from refreshing on submit
     event.preventDefault();
-
-    // check input is a letter - not a number or symbol
+    
+    // check input is a capital letter - not a number or symbol
     if (!/^([A-Z])$/.test(inputLetter)) {
         warning.innerHTML = 'Please enter a letter.';
     } else {
         warning.innerHTML = '';
-
-        // loop through each letter
-        for (var x = 0; x < randomWordSplit.length; x++) {
-            if (inputLetter !== randomWordSplit[x]) {
-                //  - Push incorrect letters to wrong-array
-                /* wrongArray.push(inputLetter);
-                for (var y = 0; y < wrongArray.length; y++) {
-                    wrongPlaceholder[y] = '<div class="wrong-letters"><span>' + wrongArray[y] + '</span></div>';
-                    for (var z = 0; z < wrongPlaceholder.length; z++) {
-                        var wrongBlockLetters = wrongPlaceholder[z];
-                    }
-                    guessWrong.innerHTML = wrongBlockLetters;
-                    */              
-                    console.log(inputLetter);
-                    console.log('no');
-                } else if (inputLetter === randomWordSplit[x]) {
-                    var index = randomWordSplit.indexOf(inputLetter);
-                    if (inputLetter === randomWordSplit[index]) {
-                    }
-                    console.log('-------')
-                    console.log(randomWordSplit[index]);
-                    console.log('yes');
-                    console.log(index);
-                /* console.log(randomWordSplit[x]);
-                guessWrong.innerHTML = inputLetter + 'yyy'; // for testing  */
+        
+        var found = false;
+        // loop through each letter to find matches
+        for (var i = 0; i < randomWordSplit.length; i++) {
+            if (inputLetter === randomWordSplit[i]) {
+                var index = randomWordSplit.indexOf(inputLetter);
+                if (inputLetter === randomWordSplit[index]) {
+                    // if correct - Push correct letters to replace that underscore
+                    placeholderArray[index] = '<div class="hangman-letters"><span>' + inputLetter + '</span></div>';
+                    found = true;
+                    updateDisplay();
+                    console.log(inputLetter + ' found at position ' + index);
+                }
+                
             }
         }
-
-
+        //  when the letter is incorrect
+        if (!found) {
+            console.log(inputLetter + ' not found');
             //  - Check if letter was already guessed
+            //  - Push incorrect letters to wrong-array
+            wrongArray.push(inputLetter);
             //  - Decrease guessRemCount
-
-
-
-        // if correct - Push correct letters to replace that underscore
-
-
-
+            // guessRemCount--;
+            // updateDisplay(inputLetter);
+        }
+        if (guessRemaining === 0) {
+            
+        }
     }
-
 }
 
-// Restart game
+// Start/Restart game
+function startGame() {
+
+    for (var i = 0; i < randomWord.length; i++) {
+        placeholderArray.push('<div class="hangman-letters"><span> </span></div>');
+    }
+
+    // create guesses remaining depending # of letters + 3 extra guesses
+    guessRemCount = randomWordSplit.length + 3;
+    guessRemaining.innerHTML = guessRemCount;
+    updateDisplay();
+}
+
+function checkWin() {
+    if (x) {
+
+        win++;
+    }
+}
 
 
+startGame();
 
 console.log(randomWord); //for testing
 console.log(randomWordSplit); //for testing
