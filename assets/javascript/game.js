@@ -3,6 +3,7 @@ var words = ['pancake', 'waffle', 'sausage', 'eggs', 'omelette', 'muffin', 'bage
 var warning = document.getElementById('warning');
 var hangman = document.getElementById('hangman');
 var guessWrong = document.getElementById('guessWrong');
+var inputGuess = document.getElementById('guessLetter');
 var win = document.getElementById('win');
 var lose = document.getElementById('lose');
 var guessRemaining = document.getElementById('guessRemaining');
@@ -16,42 +17,83 @@ for (var u = 0; u < words.length; u++) {
     words[u] = words[u].toUpperCase();
 }
 
+// Start/Restart game
+document.getElementById('resetButton').addEventListener('click', function(event) {
+    // prevents page from refreshing on submit && clears input field
+    event.preventDefault();
+
+    startGame();
+});
+
+document.getElementById('guessButton').addEventListener('click', function(event) {
+    // prevents page from refreshing on submit && clears input field
+    event.preventDefault();
+
+    evalInput();
+});
+
+function startGame() {
+    hangman.innerHTML = '';
+    guessWrong.innerHTML = '';
+
+    genRandomWord();
+    buildWord();
+    evalInput();
+    console.log(randomWord); //for testing
+    console.log(randomWordSplit); //for testing
+}
+
 // Choose word randomly based on items in food array
-var randomNum = Math.floor(Math.random() * words.length);
-var randomWord = words[randomNum];
-var randomWordSplit = randomWord.split('');
-var remainingLetters = randomWord.length;
+var randomWord;
+var randomWordSplit;
+var remainingLetters;
+
+function genRandomWord() {
+    var randomNum = Math.floor(Math.random() * words.length);
+    randomWord = words[randomNum];
+    randomWordSplit = randomWord.split('');
+    remainingLetters = randomWord.length;
+}
 
 // Blank spaces based on word length
-for (var i = 0; i < randomWord.length; i++) {
-    placeholderArray[i] = '<div class="hangman-letters"><span id="' + i + '">' + randomWord[i] + '</span></div>';
-    for (var j = 0; j < placeholderArray.length; j++) {
-        var blockLetters = placeholderArray[j] + ' ';
-    }
-    hangman.innerHTML += blockLetters;
+function buildWord() {
+    for (var i = 0; i < randomWord.length; i++) {
+        placeholderArray[i] = '<div class="hangman-letters"><span id="' + i + '">' + randomWord[i] + '</span></div>';
+        for (var j = 0; j < placeholderArray.length; j++) {
+            var blockLetters = placeholderArray[j] + ' ';
+        }
+        hangman.innerHTML += blockLetters;
 
-    // create guesses remaining depending on length of word
-    guessRemCount = randomWordSplit.length + 3;
-    guessRemaining.innerHTML = guessRemCount;
+        // create guesses remaining depending on length of word
+        guessRemCount = randomWordSplit.length + 3;
+        guessRemaining.innerHTML = guessRemCount;
+    }
 }
 
 // Evaluates input
 function evalInput() {
-    var inputLetter = document.getElementById('guessLetter').value.toUpperCase();
+    var inputLetter = inputGuess.value.toUpperCase();
     var wrongArray = [];
     var wrongPlaceholder = [];
     var found = false;
 
-    // prevents page from refreshing on submit
-    event.preventDefault();
+    inputGuess.value = '';
+    inputGuess.focus();
+
 
     // check input is a letter - not a number or symbol
     if (!/^([A-Z])$/.test(inputLetter)) {
         warning.innerHTML = 'Please enter a letter.';
     } else {
         warning.innerHTML = '';
-        allGuessesArray.push(inputLetter);
 
+        // check if letter was already entered
+        allGuessesArray.push(inputLetter);
+        if (allGuessesArray.indexOf(inputLetter) < 0) {
+            guessWrong.innerHTML = allGuessesArray;
+            console.log('first time seeing ' + inputLetter);
+        }
+        
         // loop through each letter
         for (var x = 0; x < randomWordSplit.length; x++) {
             if (inputLetter === randomWordSplit[x]) {
@@ -65,30 +107,37 @@ function evalInput() {
                 found = false;
             }
         }
-        
+
+        console.log(found);
+        // incorrect guesses displays wrong letters && updates stats
+        if (!found) {
+            // Decrease guessRemCount
+            guessRemCount--;
+            guessRemaining.innerHTML = guessRemCount;
+            console.log(inputLetter + ' not found');
+        }
+
         checkWin();
-    }
-
-    // incorrect guess
-    if (!found) {
-
-    }
-
-        //  - Decrease guessRemCount
-        //  - Check if letter was already guessed
-
+        checkLose();
+    }   
 }
 
+// win & lose functions updates stats and resets game
 function checkWin() {
     if (remainingLetters === 0) {
+        winCount++;
+        win.innerHTML = winCount;
         console.log('You win!');
+        startGame();
     }
 }
 
+function checkLose() {
+    if (guessRemCount === 0) {
+        loseCount++;
+        console.log('You lose!');
+        startGame();
+    }
+}
 
-// Restart game
-
-
-
-console.log(randomWord); //for testing
-console.log(randomWordSplit); //for testing
+startGame();
