@@ -64,8 +64,7 @@ function game() {
                     console.log(inputLetter + ' not found------------');
 
             } else if (inputLetter === randomWordSplit[x]) {
-                console.log(randomWordSplit[x]);
-                console.log(randomWordSplit.indexOf(inputLetter));
+                // if correct - display that letter
                 var identifiedLetter = document.getElementById(x);
                 identifiedLetter.style.cssText = 'display: inline-block';
             }
@@ -75,9 +74,6 @@ function game() {
             //  - Check if letter was already guessed
             //  - Decrease guessRemCount
 
-
-
-        // if correct - Push correct letters to replace that underscore
 
 
 
