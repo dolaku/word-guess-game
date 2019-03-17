@@ -9,7 +9,7 @@ var guessRemaining = document.getElementById('guessRemaining');
 var winCount = 0;
 var loseCount = 0;
 var placeholderArray = [];
-var lettersArray = [];
+var allGuessesArray = [];
 
 // Transforms words to uppercase
 for (var u = 0; u < words.length; u++) {
@@ -20,6 +20,7 @@ for (var u = 0; u < words.length; u++) {
 var randomNum = Math.floor(Math.random() * words.length);
 var randomWord = words[randomNum];
 var randomWordSplit = randomWord.split('');
+var remainingLetters = randomWord.length;
 
 // Blank spaces based on word length
 for (var i = 0; i < randomWord.length; i++) {
@@ -35,11 +36,11 @@ for (var i = 0; i < randomWord.length; i++) {
 }
 
 // Evaluates input
-function game() {
+function evalInput() {
     var inputLetter = document.getElementById('guessLetter').value.toUpperCase();
-    var remainingLetters = randomWord.length;
     var wrongArray = [];
     var wrongPlaceholder = [];
+    var found = false;
 
     // prevents page from refreshing on submit
     event.preventDefault();
@@ -49,37 +50,41 @@ function game() {
         warning.innerHTML = 'Please enter a letter.';
     } else {
         warning.innerHTML = '';
+        allGuessesArray.push(inputLetter);
 
         // loop through each letter
         for (var x = 0; x < randomWordSplit.length; x++) {
-            if (inputLetter !== randomWordSplit[x]) {
-                //  - Push incorrect letters to wrong-array
-               /*  wrongArray.push(inputLetter);
-                for (var y = 0; y < wrongArray.length; y++) {
-                    wrongPlaceholder[y] = '<div class="wrong-letters"><span>' + wrongArray[y] + '</span></div>';
-                    for (var z = 0; z < wrongPlaceholder.length; z++) {
-                        var wrongBlockLetters = wrongPlaceholder[z];
-                    }
-                    guessWrong.innerHTML = wrongBlockLetters; */
-                    console.log(inputLetter + ' not found------------');
-
-            } else if (inputLetter === randomWordSplit[x]) {
+            if (inputLetter === randomWordSplit[x]) {
                 // if correct - display that letter
                 var identifiedLetter = document.getElementById(x);
                 identifiedLetter.style.cssText = 'display: inline-block';
+                remainingLetters--;
+                console.log(remainingLetters + ' still hidden');
+                found = true;
+            } else {
+                found = false;
             }
         }
+        
+        checkWin();
+    }
 
-
-            //  - Check if letter was already guessed
-            //  - Decrease guessRemCount
-
-
-
+    // incorrect guess
+    if (!found) {
 
     }
 
+        //  - Decrease guessRemCount
+        //  - Check if letter was already guessed
+
 }
+
+function checkWin() {
+    if (remainingLetters === 0) {
+        console.log('You win!');
+    }
+}
+
 
 // Restart game
 
