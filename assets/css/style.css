@@ -5,20 +5,15 @@ body {
     opacity: .2;
     transition: .2s;
 }
-#hangman {
-    height: 50px;
-}
 #hangman .hangman-letters {
     border-bottom: 4px solid black;
     color: orangered;
     display: inline-block;
     margin: 0 2px;
-    height: 40px;
     width: 30px;
 }
 #hangman .hangman-letters span {
-    display: none;
-    height: 40px;
+    /* visibility: hidden; */
 }
 
 #guessWrong .wrong-letters {
