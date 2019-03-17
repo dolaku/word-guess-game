@@ -20,7 +20,7 @@
                     <small class="text-center text-muted">Hint: words are breakfast items.</small>
                     <form id="guessForm">
                         <input class="px-3 py-1 text-center" id="guessLetter" maxlength="1" type="text" onfocus="this.value=''" placeholder="Enter a letter . . ."/>
-                        <button class="px-4 py-1" id="guessButton" type="submit" onclick="evalInput();">
+                        <button class="px-4 py-1" id="guessButton" type="submit" onclick="game();">
                             Guess <i class="fas fa-arrow-circle-right"></i>
                         </button>
                     </form>
@@ -34,7 +34,7 @@
                     <h5 class="card-header">What's For Breakfast?</h5>
                     <div class="card-body text-center">
                         <div class="p-2 m-2">
-                            <h2 id="hangman"></h2>
+                            <h2 class="d-flex justify-content-center align-items-end" id="hangman"></h2>
                         </div>
                         <p class="card-text">
                             Wrong Guesses:
