@@ -11,27 +11,48 @@ var winCount = 0;
 var loseCount = 0;
 var placeholderArray = [];
 var allGuessesArray = [];
+var randomWord;
+var randomWordSplit;
+var remainingLetters;
 
 // Transforms words to uppercase
 for (var u = 0; u < words.length; u++) {
     words[u] = words[u].toUpperCase();
 }
 
-// Start/Restart game
-document.getElementById('resetButton').addEventListener('click', function(event) {
-    // prevents page from refreshing on submit && clears input field
+
+//--------- Prevents page from refreshing
+    // on submit for Guess && reset buttons
+document.getElementById('resetButton').addEventListener('click', function (event) {
     event.preventDefault();
 
     startGame();
 });
-
-document.getElementById('guessButton').addEventListener('click', function(event) {
-    // prevents page from refreshing on submit && clears input field
+document.getElementById('guessButton').addEventListener('click', function (event) {
     event.preventDefault();
 
     evalInput();
 });
+    // on Enter key
+window.addEventListener('keydown', function (e) {
+    if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
+        if (e.target.nodeName == 'INPUT' && e.target.type == 'text') { 
+            e.preventDefault(); 
+            return false; 
+        }
+    }
+}, true);
+//------------------------------------------
 
+// Synthesize clicking the Guess button when enter key is pressed
+document.getElementById("guessLetter").addEventListener("keyup", function (event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        document.getElementById("guessButton").click();
+    }
+});
+
+// Start/Restart game
 function startGame() {
     hangman.innerHTML = '';
     guessWrong.innerHTML = '';
@@ -43,11 +64,8 @@ function startGame() {
     console.log(randomWordSplit); //for testing
 }
 
-// Choose word randomly based on items in food array
-var randomWord;
-var randomWordSplit;
-var remainingLetters;
 
+// Choose word randomly based on items in food array
 function genRandomWord() {
     var randomNum = Math.floor(Math.random() * words.length);
     randomWord = words[randomNum];
@@ -93,7 +111,7 @@ function evalInput() {
             guessWrong.innerHTML = allGuessesArray;
             console.log('first time seeing ' + inputLetter);
         }
-        
+
         // loop through each letter
         for (var x = 0; x < randomWordSplit.length; x++) {
             if (inputLetter === randomWordSplit[x]) {
@@ -109,6 +127,7 @@ function evalInput() {
         }
 
         console.log(found);
+        console.log(allGuessesArray);
         // incorrect guesses displays wrong letters && updates stats
         if (!found) {
             // Decrease guessRemCount
@@ -117,9 +136,11 @@ function evalInput() {
             console.log(inputLetter + ' not found');
         }
 
+        guessWrong.innerHTML = allGuessesArray;
+
         checkWin();
         checkLose();
-    }   
+    }
 }
 
 // win & lose functions updates stats and resets game
