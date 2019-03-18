@@ -23,9 +23,9 @@
                     <div class="text-danger" id="warning"></div>
                     <form id="guessForm">
                         <input class="px-3 py-1 my-2 text-center" id="guessLetter" maxlength="1" type="text"
-                            onfocus="this.value=''" placeholder="Enter a letter . . ." />
+                            onfocus="this.value=''" placeholder="Enter a letter . . ." autocomplete="off"/>
                         <button class="px-4 py-1" id="guessButton" type="button">
-                            Guess <i class="fas fa-arrow-circle-right"></i>
+                            Guess <i class="fas fa-arrow-alt-circle-right"></i>
                         </button>
                     </form>
                 </div>
@@ -73,7 +73,7 @@
                     <div class="card-body">
                         <i class="fas fa-utensils mb-4 display-3"></i>
                         <h3 class="card-text mb-3" id="hiddenWord"></h3>
-                        <p id="pressStart">Press the spacebar to get started!</p>
+                        <p id="pressStart">Press the Up Arrow <i class="fas fa-arrow-alt-circle-up"></i> to get started!</p>
                     </div>
                 </div>
             </div>

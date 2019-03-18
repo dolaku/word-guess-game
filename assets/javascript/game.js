@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var placeholderArray = [];
     var randomWord;
     var randomWordSplit;
+    var identifiedLetter;
     var remainingLetters;
     var allGuessesArray = [];
     var wrongArray = [];
@@ -88,17 +89,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 for (var i = 0; i < randomWordSplit.length; i++) {
                     if (inputLetter === randomWordSplit[i]) {
                         // if correct - display that letter
-                        var identifiedLetter = document.getElementById(i);
+                        identifiedLetter = document.getElementById(i);
                         identifiedLetter.style.cssText = 'display: inline-block';
                         remainingLetters--;
                     }
                 }
 
-                // incorrect guesses
-
+                // incorrect guesses - check if input letter is not in the hidden word array
+                if (randomWordSplit.indexOf(inputLetter) < 0) {
+                    console.log('wrong letter');
+                    wrongArray.push(inputLetter);
+                    //update guess count and display
+                    guessRemCount--;
+                    guessRemaining.innerHTML = guessRemCount;
+                }
 
                 // incorrect guesses displays wrong letters && updates stats
-                wrongArray.push(inputLetter);
                 guessWrong.innerHTML = wrongArray.sort();
             } else {
                 warning.innerHTML = 'Please enter a new letter.';
@@ -115,11 +121,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (remainingLetters === 0) {
             winCount++;
             win.innerHTML = winCount;
-            endMessage.innerHTML = 'You Win!';
+            endMessage.innerHTML = 'You Win! YUM';
             hiddenWord.innerHTML = 'Breakfast was ' + randomWord;
-            pressStart.innerHTML = 'Press the spacebar to play again!';
+            pressStart.innerHTML = 'Press the Up Arrow <i class="fas fa-arrow-alt-circle-up"></i> to play again!';
             messageCard.style.cssText = 'top: 26%';
-            console.log('You win!');
             startGame();
         }
     }
@@ -128,11 +133,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (guessRemCount === 0) {
             loseCount++;
             lose.innerHTML = loseCount;
-            endMessage.innerHTML = 'You Lose';
+            endMessage.innerHTML = 'Not Hungry?';
             hiddenWord.innerHTML = 'Breakfast was ' + randomWord;
-            pressStart.innerHTML = 'Press the spacebar to play again!';
+            pressStart.innerHTML = 'Press the Up Arrow <i class="fas fa-arrow-alt-circle-up"></i> to play again!';
             messageCard.style.cssText = 'top: 26%';
-            console.log('You lose!');
             startGame();
         }
     }
@@ -171,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Start game when user presses spacebar
     document.onkeyup = function(e) {
-        if (e.keyCode === 32) {
+        if (e.keyCode === 38) {
             messageCard.style.cssText = 'top: -100%';
             document.getElementById('resetButton').style.cssText = 'visibility: visible';
             startGame();
