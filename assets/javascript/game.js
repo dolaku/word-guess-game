@@ -97,7 +97,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // incorrect guesses - check if input letter is not in the hidden word array
                 if (randomWordSplit.indexOf(inputLetter) < 0) {
-                    console.log('wrong letter');
                     wrongArray.push(inputLetter);
                     //update guess count and display
                     guessRemCount--;
