@@ -1,164 +1,181 @@
-// Word Bank
-var words = ['pancake', 'waffle', 'sausage', 'eggs', 'omelette', 'muffin', 'bagel', 'toast', 'bacon', 'yogurt', 'oatmeal', 'grits', 'cereal', 'biscuit', 'croissant', 'juice', 'strawberry', 'blueberry', 'blackberry', 'raspberry'];
-var warning = document.getElementById('warning');
-var hangman = document.getElementById('hangman');
-var guessWrong = document.getElementById('guessWrong');
-var inputGuess = document.getElementById('guessLetter');
-var win = document.getElementById('win');
-var lose = document.getElementById('lose');
-var guessRemaining = document.getElementById('guessRemaining');
-var winCount = 0;
-var loseCount = 0;
-var placeholderArray = [];
-var allGuessesArray = [];
-var randomWord;
-var randomWordSplit;
-var remainingLetters;
+document.addEventListener("DOMContentLoaded", function () {
 
-// Transforms words to uppercase
-for (var u = 0; u < words.length; u++) {
-    words[u] = words[u].toUpperCase();
-}
-
-
-//--------- Prevents page from refreshing
-    // on submit for Guess && reset buttons
-document.getElementById('resetButton').addEventListener('click', function (event) {
-    event.preventDefault();
-
-    startGame();
-});
-document.getElementById('guessButton').addEventListener('click', function (event) {
-    event.preventDefault();
-
-    evalInput();
-});
-    // on Enter key
-window.addEventListener('keydown', function (e) {
-    if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
-        if (e.target.nodeName == 'INPUT' && e.target.type == 'text') { 
-            e.preventDefault(); 
-            return false; 
-        }
-    }
-}, true);
-//------------------------------------------
-
-// Synthesize clicking the Guess button when enter key is pressed
-document.getElementById("guessLetter").addEventListener("keyup", function (event) {
-    if (event.keyCode === 13) {
-        event.preventDefault();
-        document.getElementById("guessButton").click();
-    }
-});
-
-// Start/Restart game
-function startGame() {
-    hangman.innerHTML = '';
-    guessWrong.innerHTML = '';
-
-    genRandomWord();
-    buildWord();
-    evalInput();
-    console.log(randomWord); //for testing
-    console.log(randomWordSplit); //for testing
-}
-
-
-// Choose word randomly based on items in food array
-function genRandomWord() {
-    var randomNum = Math.floor(Math.random() * words.length);
-    randomWord = words[randomNum];
-    randomWordSplit = randomWord.split('');
-    remainingLetters = randomWord.length;
-}
-
-// Blank spaces based on word length
-function buildWord() {
-    for (var i = 0; i < randomWord.length; i++) {
-        placeholderArray[i] = '<div class="hangman-letters"><span id="' + i + '">' + randomWord[i] + '</span></div>';
-        for (var j = 0; j < placeholderArray.length; j++) {
-            var blockLetters = placeholderArray[j] + ' ';
-        }
-        hangman.innerHTML += blockLetters;
-
-        // create guesses remaining depending on length of word
-        guessRemCount = randomWordSplit.length + 3;
-        guessRemaining.innerHTML = guessRemCount;
-    }
-}
-
-// Evaluates input
-function evalInput() {
-    var inputLetter = inputGuess.value.toUpperCase();
+    // Word Bank
+    var words = ['pancake', 'waffle', 'sausage', 'eggs', 'omelette', 'muffin', 'bagel', 'toast', 'bacon', 'yogurt', 'oatmeal', 'grits', 'cereal', 'biscuit', 'croissant', 'juice', 'strawberry', 'blueberry', 'blackberry', 'raspberry'];
+    var warning = document.getElementById('warning');
+    var hangman = document.getElementById('hangman');
+    var guessWrong = document.getElementById('guessWrong');
+    var inputGuess = document.getElementById('guessLetter');
+    var win = document.getElementById('win');
+    var lose = document.getElementById('lose');
+    var guessRemaining = document.getElementById('guessRemaining');
+    var messageCard = document.getElementById('messageCard');
+    var endMessage = document.getElementById('endMessage');
+    var hiddenWord = document.getElementById('hiddenWord');
+    var pressStart = document.getElementById('pressStart');
+    var winCount = 0;
+    var loseCount = 0;
+    var placeholderArray = [];
+    var randomWord;
+    var randomWordSplit;
+    var remainingLetters;
+    var allGuessesArray = [];
     var wrongArray = [];
-    var wrongPlaceholder = [];
-    var found = false;
-
-    inputGuess.value = '';
-    inputGuess.focus();
+    
 
 
-    // check input is a letter - not a number or symbol
-    if (!/^([A-Z])$/.test(inputLetter)) {
-        warning.innerHTML = 'Please enter a letter.';
-    } else {
-        warning.innerHTML = '';
+    // Start/Restart game
+    function startGame() {
+        hangman.innerHTML = '';
+        guessWrong.innerHTML = '';
+        allGuessesArray = [];
+        wrongArray = [];
 
-        // check if letter was already entered
-        allGuessesArray.push(inputLetter);
-        if (allGuessesArray.indexOf(inputLetter) < 0) {
-            guessWrong.innerHTML = allGuessesArray;
-            console.log('first time seeing ' + inputLetter);
+        // Transforms words to uppercase
+        for (var u = 0; u < words.length; u++) {
+            words[u] = words[u].toUpperCase();
         }
 
-        // loop through each letter
-        for (var x = 0; x < randomWordSplit.length; x++) {
-            if (inputLetter === randomWordSplit[x]) {
-                // if correct - display that letter
-                var identifiedLetter = document.getElementById(x);
-                identifiedLetter.style.cssText = 'display: inline-block';
-                remainingLetters--;
-                console.log(remainingLetters + ' still hidden');
-                found = true;
+        genRandomWord();
+        buildWord();
+        evalInput();
+        
+        console.log(randomWord); //for testing
+        console.log(randomWordSplit); //for testing
+    }
+
+
+    // Choose word randomly based on items in food array
+    function genRandomWord() {
+        var randomNum = Math.floor(Math.random() * words.length);
+        randomWord = words[randomNum];
+        randomWordSplit = randomWord.split('');
+        remainingLetters = randomWord.length;
+    }
+
+    // Blank spaces based on word length
+    function buildWord() {
+        for (var i = 0; i < randomWord.length; i++) {
+            placeholderArray[i] = '<div class="hangman-letters"><span id="' + i + '">' + randomWord[i] + '</span></div>';
+            for (var j = 0; j < placeholderArray.length; j++) {
+                var blockLetters = placeholderArray[j] + ' ';
+            }
+            hangman.innerHTML += blockLetters;
+
+            // create guesses remaining depending on length of word
+            guessRemCount = randomWordSplit.length + 3;
+            guessRemaining.innerHTML = guessRemCount;
+        }
+    }
+
+    // Evaluates input
+    function evalInput() {
+        var inputLetter = inputGuess.value.toUpperCase();
+
+        inputGuess.value = '';
+        inputGuess.focus();
+
+        // check input is a letter - not a number or symbol
+        if (!/^([A-Z])$/.test(inputLetter)) {
+            warning.innerHTML = 'Please enter a letter.';
+        } else {
+            warning.innerHTML = '';
+
+            // check if letter is unique or is a duplicate entry
+            if (!allGuessesArray.includes(inputLetter)) {
+                allGuessesArray.push(inputLetter);
+                // loop through each letter
+                for (var i = 0; i < randomWordSplit.length; i++) {
+                    if (inputLetter === randomWordSplit[i]) {
+                        // if correct - display that letter
+                        var identifiedLetter = document.getElementById(i);
+                        identifiedLetter.style.cssText = 'display: inline-block';
+                        remainingLetters--;
+                    }
+                }
+
+                // incorrect guesses
+
+
+                // incorrect guesses displays wrong letters && updates stats
+                wrongArray.push(inputLetter);
+                guessWrong.innerHTML = wrongArray.sort();
             } else {
-                found = false;
+                warning.innerHTML = 'Please enter a new letter.';
+            }
+
+
+            checkWin();
+            checkLose();
+        }
+    }
+
+    // win & lose functions updates stats and resets game
+    function checkWin() {
+        if (remainingLetters === 0) {
+            winCount++;
+            win.innerHTML = winCount;
+            endMessage.innerHTML = 'You Win!';
+            hiddenWord.innerHTML = 'Breakfast was ' + randomWord;
+            pressStart.innerHTML = 'Press the spacebar to play again!';
+            messageCard.style.cssText = 'top: 26%';
+            console.log('You win!');
+            startGame();
+        }
+    }
+
+    function checkLose() {
+        if (guessRemCount === 0) {
+            loseCount++;
+            lose.innerHTML = loseCount;
+            endMessage.innerHTML = 'You Lose';
+            hiddenWord.innerHTML = 'Breakfast was ' + randomWord;
+            pressStart.innerHTML = 'Press the spacebar to play again!';
+            messageCard.style.cssText = 'top: 26%';
+            console.log('You lose!');
+            startGame();
+        }
+    }
+
+    
+    //--------- Prevents page from refreshing
+    // on submit for Guess && reset buttons
+    document.getElementById('resetButton').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        startGame();
+    });
+    document.getElementById('guessButton').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        evalInput();
+    });
+    // on Enter key
+    window.addEventListener('keydown', function (e) {
+        if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
+            if (e.target.nodeName == 'INPUT' && e.target.type == 'text') {
+                e.preventDefault();
+                return false;
             }
         }
+    }, true);
+    //------------------------------------------
 
-        console.log(found);
-        console.log(allGuessesArray);
-        // incorrect guesses displays wrong letters && updates stats
-        if (!found) {
-            // Decrease guessRemCount
-            guessRemCount--;
-            guessRemaining.innerHTML = guessRemCount;
-            console.log(inputLetter + ' not found');
+    // When enter key is pressed, synthesize clicking the Guess button
+    document.getElementById("guessLetter").addEventListener("keyup", function (e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            document.getElementById("guessButton").click();
         }
+    });
 
-        guessWrong.innerHTML = allGuessesArray;
-
-        checkWin();
-        checkLose();
+    // Start game when user presses spacebar
+    document.onkeyup = function(e) {
+        if (e.keyCode === 32) {
+            messageCard.style.cssText = 'top: -100%';
+            document.getElementById('resetButton').style.cssText = 'visibility: visible';
+            startGame();
+        }
     }
-}
 
-// win & lose functions updates stats and resets game
-function checkWin() {
-    if (remainingLetters === 0) {
-        winCount++;
-        win.innerHTML = winCount;
-        console.log('You win!');
-        startGame();
-    }
-}
-
-function checkLose() {
-    if (guessRemCount === 0) {
-        loseCount++;
-        console.log('You lose!');
-        startGame();
-    }
-}
-
-startGame();
+});

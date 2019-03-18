@@ -20,6 +20,7 @@
                 <div class="px-3 py-3 pt-md-5 pb-md-4 text-center">
                     <h1 class="mb-5 display-3">Word Guess!</h1>
                     <small class="text-center text-muted">Hint: words are breakfast items.</small>
+                    <div class="text-danger" id="warning"></div>
                     <form id="guessForm">
                         <input class="px-3 py-1 my-2 text-center" id="guessLetter" maxlength="1" type="text"
                             onfocus="this.value=''" placeholder="Enter a letter . . ." />
@@ -27,11 +28,10 @@
                             Guess <i class="fas fa-arrow-circle-right"></i>
                         </button>
                     </form>
-                    <div class="text-danger" id="warning"></div>
                 </div>
             </div>
-        </div>
-        <!--row_header-->
+        </div> <!--row_header-->
+
         <div class="row mb-auto mt-3 flex-shrink-0" id="main">
             <div class="col-lg-8 col-md-12">
                 <div class="card mb-4">
@@ -64,8 +64,20 @@
                     </button>
                 </form>
             </div>
-        </div>
-        <!--row_#main-->
+        </div> <!--row_#main-->
+
+        <div class="row position-absolute w-100" id="messageCard">
+            <div class="col-12 text-center">
+                <div class="card mb-4 text-white bg-info">
+                    <h2 class="card-header display-3" id="endMessage">What's For Breakfast?</h2>
+                    <div class="card-body">
+                        <i class="fas fa-utensils mb-4 display-3"></i>
+                        <h3 class="card-text mb-3" id="hiddenWord"></h3>
+                        <p id="pressStart">Press the spacebar to get started!</p>
+                    </div>
+                </div>
+            </div>
+        </div> <!--Message Card-->
 
         <footer class="pt-2 my-md-4 pt-md-2 text-center border-top">
             <div class="row">
@@ -74,8 +86,7 @@
                 </div>
             </div>
         </footer>
-    </div>
-    <!--container-->
+    </div> <!--container-->
 
     <script src="./assets/javascript/game.js"></script>
 </body>
