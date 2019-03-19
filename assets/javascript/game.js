@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var pressStart = document.getElementById('pressStart');
     var winCount = 0;
     var loseCount = 0;
-    var placeholderArray = [];
     var randomWord;
     var randomWordSplit;
     var identifiedLetter;
@@ -56,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Blank spaces based on word length
     function buildWord() {
+        var placeholderArray = [];
         for (var i = 0; i < randomWord.length; i++) {
             placeholderArray[i] = '<div class="hangman-letters"><span id="' + i + '">' + randomWord[i] + '</span></div>';
             for (var j = 0; j < placeholderArray.length; j++) {
