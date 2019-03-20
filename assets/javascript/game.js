@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
             win.innerHTML = winCount;
             endMessage.innerHTML = 'You Win! YUM';
             hiddenWord.innerHTML = 'Breakfast was ' + randomWord;
-            pressStart.innerHTML = 'Press the Up Arrow <i class="fas fa-arrow-alt-circle-up"></i> to play again!';
+            pressStart.innerHTML = 'Press the Up Arrow <i class="fas fa-arrow-alt-circle-up"></i> or click here to play again!';
             messageCard.style.cssText = 'top: 26%';
             startGame();
         }
@@ -134,18 +134,35 @@ document.addEventListener("DOMContentLoaded", function () {
             lose.innerHTML = loseCount;
             endMessage.innerHTML = 'Not Hungry?';
             hiddenWord.innerHTML = 'Breakfast was ' + randomWord;
-            pressStart.innerHTML = 'Press the Up Arrow <i class="fas fa-arrow-alt-circle-up"></i> to play again!';
+            pressStart.innerHTML = 'Press the Up Arrow <i class="fas fa-arrow-alt-circle-up"></i> or click here to play again!';
             messageCard.style.cssText = 'top: 26%';
             startGame();
         }
     }
 
+    // Clear popup message to go back to game screen
+    function clearMessage() {
+        messageCard.style.cssText = 'top: -100%';
+        document.getElementById('resetButton').style.cssText = 'visibility: visible';
+    }
+    // Up arrow key && click clears popup message
+    document.onkeyup = function(e) {
+        if (e.keyCode === 38) {
+            clearMessage();
+        }
+    }
+    //added click to clear message for mobile-friendly
+    messageCard.onclick = function() { 
+        clearMessage() 
+    };
+    
+    startGame();
     
     //--------- Prevents page from refreshing
     // on submit for Guess && reset buttons
     document.getElementById('resetButton').addEventListener('click', function (e) {
         e.preventDefault();
-
+        
         startGame();
     });
     document.getElementById('guessButton').addEventListener('click', function (e) {
@@ -171,14 +188,4 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("guessButton").click();
         }
     });
-
-    // Start game when user presses spacebar
-    document.onkeyup = function(e) {
-        if (e.keyCode === 38) {
-            messageCard.style.cssText = 'top: -100%';
-            document.getElementById('resetButton').style.cssText = 'visibility: visible';
-            startGame();
-        }
-    }
-
 });
