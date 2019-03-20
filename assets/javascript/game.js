@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var remainingLetters;
     var allGuessesArray = [];
     var wrongArray = [];
-    
+
 
     // Start/Restart game
     function startGame() {
@@ -146,17 +146,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     //added click to clear message for mobile-friendly
-    messageCard.onclick = function() { 
-        clearMessage() 
+    messageCard.onclick = function() {
+        clearMessage()
     };
 
-    
+
     //--------- Prevents page from refreshing
     // on submit for Guess && reset buttons
     resetButton.addEventListener('click', function (e) {
         e.preventDefault();
-        
-        startGame();
+        // check if user wants to cancel the reset
+        if (confirm("Are you sure you're not hungry? Click OK to start a new breakfast and lose a point, cancel to keep trying.")) {
+            loseCount++;
+            lose.innerHTML = loseCount;
+            startGame();
+        }
     });
     guessButton.addEventListener('click', function (e) {
         e.preventDefault();
