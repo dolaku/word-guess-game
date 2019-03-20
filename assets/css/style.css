@@ -18,16 +18,13 @@ body {
 }
 #hangman .hangman-letters span {
     display: none;
-    height: 40px;
 }
-
-#guessWrong .wrong-letters {
-    border: 2px solid #333;
+#guessWrong {
     color: #c91477;
     display: inline-block;
-    margin: 10px 5px;
-    padding: 10px;
-    /* width: 30px; */
+    font-size: 1.25em;
+    font-weight: 800;
+    letter-spacing: 3px;
 }
 #resetButton {
     visibility: hidden;

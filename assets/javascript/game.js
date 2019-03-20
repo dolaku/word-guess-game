@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     // Word Bank
-    var words = ['pancake', 'waffle', 'sausage', 'eggs', 'omelette', 'muffin', 'bagel', 'toast', 'bacon', 'yogurt', 'oatmeal', 'grits', 'cereal', 'biscuit', 'croissant', 'juice', 'strawberry', 'blueberry', 'blackberry', 'raspberry'];
+    var words = ['pancake', 'waffle', 'sausage', 'eggs', 'omelette', 'muffin', 'bagel', 'toast', 'bacon', 'yogurt', 'oatmeal', 'grits', 'cereal', 'biscuit', 'croissant', 'juice', 'strawberry', 'blueberry', 'blackberry', 'raspberry', 'ham', 'donut', 'coffee', 'honeydew', 'jam', 'potatoes','quiche', 'syrup'];
     var warning = document.getElementById('warning');
     var hangman = document.getElementById('hangman');
     var guessWrong = document.getElementById('guessWrong');
@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var endMessage = document.getElementById('endMessage');
     var hiddenWord = document.getElementById('hiddenWord');
     var pressStart = document.getElementById('pressStart');
+    var resetButton = document.getElementById('resetButton');
     var winCount = 0;
     var loseCount = 0;
     var randomWord;
@@ -22,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var allGuessesArray = [];
     var wrongArray = [];
     
-
 
     // Start/Restart game
     function startGame() {
@@ -38,10 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         genRandomWord();
         buildWord();
-        evalInput();
-        
-        console.log(randomWord); //for testing
-        console.log(randomWordSplit); //for testing
     }
 
 
@@ -64,13 +60,13 @@ document.addEventListener("DOMContentLoaded", function () {
             hangman.innerHTML += blockLetters;
 
             // create guesses remaining depending on length of word
-            guessRemCount = randomWordSplit.length + 3;
+            guessRemCount = randomWordSplit.length + 2;
             guessRemaining.innerHTML = guessRemCount;
         }
     }
 
     // Evaluates input
-    function evalInput() {
+    guessButton.onclick = function() {
         var inputLetter = inputGuess.value.toUpperCase();
 
         inputGuess.value = '';
@@ -109,7 +105,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 warning.innerHTML = 'Please enter a new letter.';
             }
 
-
             checkWin();
             checkLose();
         }
@@ -124,7 +119,6 @@ document.addEventListener("DOMContentLoaded", function () {
             hiddenWord.innerHTML = 'Breakfast was ' + randomWord;
             pressStart.innerHTML = 'Press the Up Arrow <i class="fas fa-arrow-alt-circle-up"></i> or click here to play again!';
             messageCard.style.cssText = 'top: 26%';
-            startGame();
         }
     }
 
@@ -136,14 +130,14 @@ document.addEventListener("DOMContentLoaded", function () {
             hiddenWord.innerHTML = 'Breakfast was ' + randomWord;
             pressStart.innerHTML = 'Press the Up Arrow <i class="fas fa-arrow-alt-circle-up"></i> or click here to play again!';
             messageCard.style.cssText = 'top: 26%';
-            startGame();
         }
     }
 
     // Clear popup message to go back to game screen
     function clearMessage() {
         messageCard.style.cssText = 'top: -100%';
-        document.getElementById('resetButton').style.cssText = 'visibility: visible';
+        resetButton.style.cssText = 'visibility: visible';
+        startGame();
     }
     // Up arrow key && click clears popup message
     document.onkeyup = function(e) {
@@ -155,20 +149,17 @@ document.addEventListener("DOMContentLoaded", function () {
     messageCard.onclick = function() { 
         clearMessage() 
     };
-    
-    startGame();
+
     
     //--------- Prevents page from refreshing
     // on submit for Guess && reset buttons
-    document.getElementById('resetButton').addEventListener('click', function (e) {
+    resetButton.addEventListener('click', function (e) {
         e.preventDefault();
         
         startGame();
     });
-    document.getElementById('guessButton').addEventListener('click', function (e) {
+    guessButton.addEventListener('click', function (e) {
         e.preventDefault();
-
-        evalInput();
     });
     // on Enter key
     window.addEventListener('keydown', function (e) {
@@ -185,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("guessLetter").addEventListener("keyup", function (e) {
         if (e.keyCode === 13) {
             e.preventDefault();
-            document.getElementById("guessButton").click();
+            guessButton.click();
         }
     });
 });
