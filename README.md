@@ -6,4 +6,4 @@ Simply enter a letter to make a guess. Correct letters will get to one step clos
 
 ### How hungry are you?
 
-![Breakfast](./assets/image/What's For Breakfast.png)
+![Breakfast](./assets/image/breakfast.png)
